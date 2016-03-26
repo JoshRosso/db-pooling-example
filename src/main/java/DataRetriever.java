@@ -16,19 +16,13 @@ public class DataRetriever {
     private static final DataSource dataSource = setupDataSource("jdbc:mysql://127.0.0.1/university?user=root");
     private static final Logger logger = LogManager.getLogger(DataRetriever.class.getName());
 
-    private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String JDBC_STRING = "jdbc:mysql://127.0.0.1/university?user=root";
 
     public static List<Map<String, Object>> retrieveData(String sql) {
 
-        try {
-            Class.forName(MYSQL_DRIVER);
-        } catch(ClassNotFoundException ex) {
-            logger.error("Could not load driver. Exception: " + ex.getMessage());
-        }
-
         List<Map<String,Object>> resultList = null;
 
-        try (Connection conn = dataSource.getConnection();
+        try (Connection conn = DriverManager.getConnection(JDBC_STRING);
              Statement stmt = conn.prepareStatement(sql)) {
 
              try (ResultSet rset = stmt.executeQuery(sql)) {
