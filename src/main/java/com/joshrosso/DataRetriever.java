@@ -13,14 +13,15 @@ import java.util.Map;
 
 public class DataRetriever {
 
-    private static final DataSource dataSource = setupDataSource("jdbc:mysql://52.24.207.152/university?user=tester&password=tester");
     private static final Logger logger = LogManager.getLogger(DataRetriever.class.getName());
+
+    private static final String JDBC_STRING = "jdbc:mysql://52.24.207.152/university?user=tester&password=tester";
 
     public static List<Map<String, Object>> retrieveData(String sql) {
 
         List<Map<String,Object>> resultList = null;
 
-        try (Connection conn = dataSource.getConnection();
+        try (Connection conn = DriverManager.getConnection(JDBC_STRING);
              Statement stmt = conn.prepareStatement(sql)) {
 
              try (ResultSet rset = stmt.executeQuery(sql)) {
@@ -36,17 +37,6 @@ public class DataRetriever {
         }
 
         return resultList;
-    }
-
-    public static DataSource setupDataSource(String connectURI) {
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl(connectURI);
-        ds.setMaxIdle(60);
-        ds.setMaxTotal(80);
-        ds.setMinIdle(20);
-        ds.setMaxWaitMillis(30000);
-        return ds;
     }
 
     private static List<Map<String,Object>> parseResultSet(ResultSet rset) throws SQLException {
