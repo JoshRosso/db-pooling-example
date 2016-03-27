@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <Configuration>
   <Appenders>
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%-5p %d [%t] %c: %m%n"/>
     </Console>
   </Appenders>
+
   <Loggers>
-
-    <Logger name="StudentService" level="info"/>
-
-    <Root level="trace">
+    <Logger name="com.joshrosso.StudentService" level="TRACE"/>
+    <Root level="INFO">
       <AppenderRef ref="STDOUT"/>
     </Root>
   </Loggers>
+
 </Configuration>
